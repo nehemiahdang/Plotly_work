@@ -9,6 +9,7 @@ d3.json("data/samples.json").then(function(data) {
     // console.log(sample_values[0].slice(0,10));
     // console.log(data.metadata.filter(value => value.id === 940));
     // console.log(demo_info[0]);
+    // console.log(demo_info[0].wfreq);
 
     // Display the initiate
     // Horizontal Bar Chart
@@ -46,6 +47,24 @@ d3.json("data/samples.json").then(function(data) {
     };
 
     Plotly.newPlot("bubble", data2, layout2);
+    
+    // Gauge Chart
+    var data3 = [{
+        value: demo_info[0].wfreq,
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        title: {
+            text: "Belly Button Washing Freq: Scrubs per Week"},
+        type: "indicator",
+        mode: "gauge+number",
+        gauge: {
+            axis: {range: [null, 9]},
+        }
+    }];
+
+    Plotly.newPlot("gauge", data3);
 
     // Target the sample-metadata ID to input the demographic info
     var demography = d3.select("#sample-metadata");
@@ -80,6 +99,9 @@ d3.json("data/samples.json").then(function(data) {
         var size = [];
         var text2 = [];
 
+        // For Gauge Chart
+        var gValue = [];
+
         // Resets the html content of the sample-metadata
         demography.html("");
 
@@ -95,7 +117,9 @@ d3.json("data/samples.json").then(function(data) {
             x2 = otu_ids[0],
             y2 = sample_values[0],
             size = sample_values[0],
-            text2 = otu_labels[0]
+            text2 = otu_labels[0],
+
+            gValue = demo_info[0].wfreq
         }
 
         if (subject === "941") {
@@ -109,7 +133,9 @@ d3.json("data/samples.json").then(function(data) {
             x2 = otu_ids[1],
             y2 = sample_values[1],
             size = sample_values[1],
-            text2 = otu_labels[1]
+            text2 = otu_labels[1],
+
+            gValue = demo_info[1].wfreq
         }
 
         if (subject === "943") {
@@ -123,7 +149,9 @@ d3.json("data/samples.json").then(function(data) {
             x2 = otu_ids[2],
             y2 = sample_values[2],
             size = sample_values[2],
-            text2 = otu_labels[2]
+            text2 = otu_labels[2],
+
+            gValue = demo_info[2].wfreq
         }
 
         if (subject === "944") {
@@ -137,7 +165,9 @@ d3.json("data/samples.json").then(function(data) {
             x2 = otu_ids[3],
             y2 = sample_values[3],
             size = sample_values[3],
-            text2 = otu_labels[3]
+            text2 = otu_labels[3],
+
+            gValue = demo_info[3].wfreq
         }
 
         if (subject === "945") {
@@ -151,7 +181,9 @@ d3.json("data/samples.json").then(function(data) {
             x2 = otu_ids[4],
             y2 = sample_values[4],
             size = sample_values[4],
-            text2 = otu_labels[4]
+            text2 = otu_labels[4],
+
+            gValue = demo_info[4].wfreq
         }
         // Update the bar graphs when the dropdown menu option is changed
         Plotly.restyle("bar", "x", [x]);
@@ -161,5 +193,6 @@ d3.json("data/samples.json").then(function(data) {
         Plotly.restyle("bubble", "y", [y2]);
         Plotly.restyle("bubble", "size", [size]);
         Plotly.restyle("bubble", "text", [text2]);
+        Plotly.restyle("gauge", "value", [gValue]);
     };
 });
